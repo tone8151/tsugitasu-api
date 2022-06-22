@@ -1,6 +1,6 @@
 swagger: "2.0"
 info:
-  description: "継ぎ足す"
+  description: "ツギタス"
   version: "1.0.0"
   title: "tsugitasu-api"
   termsOfService: "http://swagger.io/terms/"
