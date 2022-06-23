@@ -39,7 +39,7 @@ functions:
     handler: entry_tmp.handler
     events:
       - http:
-          path: /entry/tmp/
+          path: /user/entry/tmp/
           method: post
 
   # 本登録API
@@ -47,7 +47,7 @@ functions:
     handler: entry_prd.handler
     events:
       - http:
-          path: /entry/prd/
+          path: /user/entry/prd/
           method: post
 
   # ログインAPI
@@ -55,7 +55,7 @@ functions:
     handler: login.handler
     events:
       - http:
-          path: /login/
+          path: /user/login/
           method: post
 
 resources:
