@@ -192,7 +192,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/simple-authorization-project/dev/1655870489150-2022-06-22T04:01:29.150Z/simple-authorization-project.zip"
+                "S3Key": "serverless/simple-authorization-project/dev/1656550378702-2022-06-30T00:52:58.702Z/simple-authorization-project.zip"
               },
               "Handler": "hello.handler",
               "Runtime": "python3.8",
@@ -217,7 +217,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/simple-authorization-project/dev/1655870489150-2022-06-22T04:01:29.150Z/simple-authorization-project.zip"
+                "S3Key": "serverless/simple-authorization-project/dev/1656550378702-2022-06-30T00:52:58.702Z/simple-authorization-project.zip"
               },
               "Handler": "entry_tmp.handler",
               "Runtime": "python3.8",
@@ -242,7 +242,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/simple-authorization-project/dev/1655870489150-2022-06-22T04:01:29.150Z/simple-authorization-project.zip"
+                "S3Key": "serverless/simple-authorization-project/dev/1656550378702-2022-06-30T00:52:58.702Z/simple-authorization-project.zip"
               },
               "Handler": "entry_prd.handler",
               "Runtime": "python3.8",
@@ -267,7 +267,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/simple-authorization-project/dev/1655870489150-2022-06-22T04:01:29.150Z/simple-authorization-project.zip"
+                "S3Key": "serverless/simple-authorization-project/dev/1656550378702-2022-06-30T00:52:58.702Z/simple-authorization-project.zip"
               },
               "Handler": "login.handler",
               "Runtime": "python3.8",
@@ -285,44 +285,44 @@
               "LoginLogGroup"
             ]
           },
-          "HelloLambdaVersionwdN7SeUiabjA385vQMVGr5ZGx9wLo5gVqCdl18y8": {
+          "HelloLambdaVersion7YXHwidIe069m7zwV7KFScv2ZML5xEUCuZGbsiLOc": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "HelloLambdaFunction"
               },
-              "CodeSha256": "eDesKhSKfJF/xfwCWC3zVKjVvYCpsLdYL4BnRXTq2rI="
+              "CodeSha256": "GcHjDL729Tmc7ct9MoHIiIYD8MnSKSlv0tTTSJa81ls="
             }
           },
-          "TmpLambdaVersioni8s2NSHsJMikGzg47tv0bDskO3gzPtFtmAxIqGCTs": {
+          "TmpLambdaVersionIYHqRSUYAbkYNwIsnNvn8Hz3IPP0jQVgRWxhudLm9w": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "TmpLambdaFunction"
               },
-              "CodeSha256": "eDesKhSKfJF/xfwCWC3zVKjVvYCpsLdYL4BnRXTq2rI="
+              "CodeSha256": "GcHjDL729Tmc7ct9MoHIiIYD8MnSKSlv0tTTSJa81ls="
             }
           },
-          "PrdLambdaVersionY3n6WlqjPIJRgsIzP3we4tUY0cvpPR5Pn3QOZrvgpU": {
+          "PrdLambdaVersionbjKAIgBkT9uh9JJLY5Yuh6wlqVBAKRFhnLi0rVAlT8": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "PrdLambdaFunction"
               },
-              "CodeSha256": "eDesKhSKfJF/xfwCWC3zVKjVvYCpsLdYL4BnRXTq2rI="
+              "CodeSha256": "GcHjDL729Tmc7ct9MoHIiIYD8MnSKSlv0tTTSJa81ls="
             }
           },
-          "LoginLambdaVersionOKnh1cxpltEVjipegesMOUprHMh1AWFXw3ajsjM": {
+          "LoginLambdaVersioniCRHyNpGOtWKrDoEJavQgG91qSi1jdxdLUjGtW60uY": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "LoginLambdaFunction"
               },
-              "CodeSha256": "eDesKhSKfJF/xfwCWC3zVKjVvYCpsLdYL4BnRXTq2rI="
+              "CodeSha256": "GcHjDL729Tmc7ct9MoHIiIYD8MnSKSlv0tTTSJa81ls="
             }
           },
           "ApiGatewayRestApi": {
@@ -454,6 +454,145 @@
               },
               "ResourceId": {
                 "Ref": "ApiGatewayResourceHello"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayMethodUserEntryTmpOptions": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "AuthorizationType": "NONE",
+              "HttpMethod": "OPTIONS",
+              "MethodResponses": [
+                {
+                  "StatusCode": "200",
+                  "ResponseParameters": {
+                    "method.response.header.Access-Control-Allow-Origin": true,
+                    "method.response.header.Access-Control-Allow-Headers": true,
+                    "method.response.header.Access-Control-Allow-Methods": true
+                  },
+                  "ResponseModels": {}
+                }
+              ],
+              "RequestParameters": {},
+              "Integration": {
+                "Type": "MOCK",
+                "RequestTemplates": {
+                  "application/json": "{statusCode:200}"
+                },
+                "ContentHandling": "CONVERT_TO_TEXT",
+                "IntegrationResponses": [
+                  {
+                    "StatusCode": "200",
+                    "ResponseParameters": {
+                      "method.response.header.Access-Control-Allow-Origin": "'http://localhost:8080'",
+                      "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+                      "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,POST'"
+                    },
+                    "ResponseTemplates": {
+                      "application/json": ""
+                    }
+                  }
+                ]
+              },
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceUserEntryTmp"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayMethodUserEntryPrdOptions": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "AuthorizationType": "NONE",
+              "HttpMethod": "OPTIONS",
+              "MethodResponses": [
+                {
+                  "StatusCode": "200",
+                  "ResponseParameters": {
+                    "method.response.header.Access-Control-Allow-Origin": true,
+                    "method.response.header.Access-Control-Allow-Headers": true,
+                    "method.response.header.Access-Control-Allow-Methods": true,
+                    "method.response.header.Access-Control-Allow-Credentials": true
+                  },
+                  "ResponseModels": {}
+                }
+              ],
+              "RequestParameters": {},
+              "Integration": {
+                "Type": "MOCK",
+                "RequestTemplates": {
+                  "application/json": "{statusCode:200}"
+                },
+                "ContentHandling": "CONVERT_TO_TEXT",
+                "IntegrationResponses": [
+                  {
+                    "StatusCode": "200",
+                    "ResponseParameters": {
+                      "method.response.header.Access-Control-Allow-Origin": "'*'",
+                      "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+                      "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,POST'",
+                      "method.response.header.Access-Control-Allow-Credentials": "'true'"
+                    },
+                    "ResponseTemplates": {
+                      "application/json": ""
+                    }
+                  }
+                ]
+              },
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceUserEntryPrd"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayMethodUserLoginOptions": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "AuthorizationType": "NONE",
+              "HttpMethod": "OPTIONS",
+              "MethodResponses": [
+                {
+                  "StatusCode": "200",
+                  "ResponseParameters": {
+                    "method.response.header.Access-Control-Allow-Origin": true,
+                    "method.response.header.Access-Control-Allow-Headers": true,
+                    "method.response.header.Access-Control-Allow-Methods": true,
+                    "method.response.header.Access-Control-Allow-Credentials": true
+                  },
+                  "ResponseModels": {}
+                }
+              ],
+              "RequestParameters": {},
+              "Integration": {
+                "Type": "MOCK",
+                "RequestTemplates": {
+                  "application/json": "{statusCode:200}"
+                },
+                "ContentHandling": "CONVERT_TO_TEXT",
+                "IntegrationResponses": [
+                  {
+                    "StatusCode": "200",
+                    "ResponseParameters": {
+                      "method.response.header.Access-Control-Allow-Origin": "'*'",
+                      "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+                      "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,POST'",
+                      "method.response.header.Access-Control-Allow-Credentials": "'true'"
+                    },
+                    "ResponseTemplates": {
+                      "application/json": ""
+                    }
+                  }
+                ]
+              },
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceUserLogin"
               },
               "RestApiId": {
                 "Ref": "ApiGatewayRestApi"
@@ -647,7 +786,7 @@
               "LoginLambdaPermissionApiGateway"
             ]
           },
-          "ApiGatewayDeployment1655870488581": {
+          "ApiGatewayDeployment1656550378137": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -657,6 +796,9 @@
             },
             "DependsOn": [
               "ApiGatewayMethodHelloOptions",
+              "ApiGatewayMethodUserEntryTmpOptions",
+              "ApiGatewayMethodUserEntryPrdOptions",
+              "ApiGatewayMethodUserLoginOptions",
               "ApiGatewayMethodHelloGet",
               "ApiGatewayMethodUserEntryTmpPost",
               "ApiGatewayMethodUserEntryPrdPost",
@@ -938,6 +1080,19 @@
                 }
               ]
             }
+          },
+          "GatewayResponseDefault4XX": {
+            "Type": "AWS::ApiGateway::GatewayResponse",
+            "Properties": {
+              "ResponseParameters": {
+                "gatewayresponse.header.Access-Control-Allow-Origin": "'*'",
+                "gatewayresponse.header.Access-Control-Allow-Headers": "'*'"
+              },
+              "ResponseType": "DEFAULT_4XX",
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
           }
         },
         "Outputs": {
@@ -952,7 +1107,7 @@
           "HelloLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "HelloLambdaVersionwdN7SeUiabjA385vQMVGr5ZGx9wLo5gVqCdl18y8"
+              "Ref": "HelloLambdaVersion7YXHwidIe069m7zwV7KFScv2ZML5xEUCuZGbsiLOc"
             },
             "Export": {
               "Name": "sls-simple-authorization-project-dev-HelloLambdaFunctionQualifiedArn"
@@ -961,7 +1116,7 @@
           "TmpLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "TmpLambdaVersioni8s2NSHsJMikGzg47tv0bDskO3gzPtFtmAxIqGCTs"
+              "Ref": "TmpLambdaVersionIYHqRSUYAbkYNwIsnNvn8Hz3IPP0jQVgRWxhudLm9w"
             },
             "Export": {
               "Name": "sls-simple-authorization-project-dev-TmpLambdaFunctionQualifiedArn"
@@ -970,7 +1125,7 @@
           "PrdLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "PrdLambdaVersionY3n6WlqjPIJRgsIzP3we4tUY0cvpPR5Pn3QOZrvgpU"
+              "Ref": "PrdLambdaVersionbjKAIgBkT9uh9JJLY5Yuh6wlqVBAKRFhnLi0rVAlT8"
             },
             "Export": {
               "Name": "sls-simple-authorization-project-dev-PrdLambdaFunctionQualifiedArn"
@@ -979,7 +1134,7 @@
           "LoginLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "LoginLambdaVersionOKnh1cxpltEVjipegesMOUprHMh1AWFXw3ajsjM"
+              "Ref": "LoginLambdaVersioniCRHyNpGOtWKrDoEJavQgG91qSi1jdxdLUjGtW60uY"
             },
             "Export": {
               "Name": "sls-simple-authorization-project-dev-LoginLambdaFunctionQualifiedArn"
@@ -1160,7 +1315,7 @@
         "timeout": 6,
         "runtime": "python3.8",
         "vpc": {},
-        "versionLogicalId": "HelloLambdaVersionwdN7SeUiabjA385vQMVGr5ZGx9wLo5gVqCdl18y8"
+        "versionLogicalId": "HelloLambdaVersion7YXHwidIe069m7zwV7KFScv2ZML5xEUCuZGbsiLOc"
       },
       "tmp": {
         "handler": "entry_tmp.handler",
@@ -1169,6 +1324,22 @@
             "http": {
               "path": "user/entry/tmp",
               "method": "post",
+              "cors": {
+                "origin": "http://localhost:8080",
+                "methods": [
+                  "OPTIONS",
+                  "POST"
+                ],
+                "headers": [
+                  "Content-Type",
+                  "X-Amz-Date",
+                  "Authorization",
+                  "X-Api-Key",
+                  "X-Amz-Security-Token",
+                  "X-Amz-User-Agent"
+                ],
+                "allowCredentials": false
+              },
               "integration": "AWS_PROXY"
             }
           }
@@ -1179,7 +1350,7 @@
         "timeout": 6,
         "runtime": "python3.8",
         "vpc": {},
-        "versionLogicalId": "TmpLambdaVersioni8s2NSHsJMikGzg47tv0bDskO3gzPtFtmAxIqGCTs"
+        "versionLogicalId": "TmpLambdaVersionIYHqRSUYAbkYNwIsnNvn8Hz3IPP0jQVgRWxhudLm9w"
       },
       "prd": {
         "handler": "entry_prd.handler",
@@ -1188,6 +1359,22 @@
             "http": {
               "path": "user/entry/prd",
               "method": "post",
+              "cors": {
+                "origin": "*",
+                "methods": [
+                  "OPTIONS",
+                  "POST"
+                ],
+                "headers": [
+                  "Content-Type",
+                  "X-Amz-Date",
+                  "Authorization",
+                  "X-Api-Key",
+                  "X-Amz-Security-Token",
+                  "X-Amz-User-Agent"
+                ],
+                "allowCredentials": true
+              },
               "integration": "AWS_PROXY"
             }
           }
@@ -1198,7 +1385,7 @@
         "timeout": 6,
         "runtime": "python3.8",
         "vpc": {},
-        "versionLogicalId": "PrdLambdaVersionY3n6WlqjPIJRgsIzP3we4tUY0cvpPR5Pn3QOZrvgpU"
+        "versionLogicalId": "PrdLambdaVersionbjKAIgBkT9uh9JJLY5Yuh6wlqVBAKRFhnLi0rVAlT8"
       },
       "login": {
         "handler": "login.handler",
@@ -1207,6 +1394,22 @@
             "http": {
               "path": "user/login",
               "method": "post",
+              "cors": {
+                "origin": "*",
+                "methods": [
+                  "OPTIONS",
+                  "POST"
+                ],
+                "headers": [
+                  "Content-Type",
+                  "X-Amz-Date",
+                  "Authorization",
+                  "X-Api-Key",
+                  "X-Amz-Security-Token",
+                  "X-Amz-User-Agent"
+                ],
+                "allowCredentials": true
+              },
               "integration": "AWS_PROXY"
             }
           }
@@ -1217,7 +1420,7 @@
         "timeout": 6,
         "runtime": "python3.8",
         "vpc": {},
-        "versionLogicalId": "LoginLambdaVersionOKnh1cxpltEVjipegesMOUprHMh1AWFXw3ajsjM"
+        "versionLogicalId": "LoginLambdaVersioniCRHyNpGOtWKrDoEJavQgG91qSi1jdxdLUjGtW60uY"
       }
     },
     "resources": {
@@ -1349,6 +1552,19 @@
               }
             ]
           }
+        },
+        "GatewayResponseDefault4XX": {
+          "Type": "AWS::ApiGateway::GatewayResponse",
+          "Properties": {
+            "ResponseParameters": {
+              "gatewayresponse.header.Access-Control-Allow-Origin": "'*'",
+              "gatewayresponse.header.Access-Control-Allow-Headers": "'*'"
+            },
+            "ResponseType": "DEFAULT_4XX",
+            "RestApiId": {
+              "Ref": "ApiGatewayRestApi"
+            }
+          }
         }
       },
       "Outputs": {
@@ -1392,7 +1608,7 @@
     "artifact": "/Users/yukihikotone/tsugitasu_dev/simple_authorization_project/.serverless/simple-authorization-project.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/simple-authorization-project/dev/1655870489150-2022-06-22T04:01:29.150Z",
+    "artifactDirectoryName": "serverless/simple-authorization-project/dev/1656550378702-2022-06-30T00:52:58.702Z",
     "artifact": "simple-authorization-project.zip"
   }
 }

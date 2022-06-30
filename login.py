@@ -5,7 +5,7 @@ import boto3
 
 def sign_in(email, password):
     # 認証開始
-    try:
+    # try:
         aws_client = boto3.client(
             'cognito-idp'
             # region_name='ap-northeast-1'
@@ -27,9 +27,9 @@ def sign_in(email, password):
         # 本登録完了
         return aws_result
 
-    except:
-        # 認証失敗
-        return aws_result
+    # except:
+    #     # 認証失敗
+    #     return aws_result
 
 
 def handler(event, context):
@@ -47,5 +47,9 @@ def handler(event, context):
 
     return {
         'statusCode': 200,
+        "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": "true"
+        },
         'body': json.dumps(response)
     }

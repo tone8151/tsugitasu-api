@@ -41,6 +41,18 @@ functions:
       - http:
           path: /user/entry/tmp/
           method: post
+          cors: 
+            # どのオリジンからのアクセスを受け付けるかどうか
+            origin: 'http://localhost:8080'
+            # 許可するヘッダーを定義
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+            allowCredentials: false
 
   # 本登録API
   prd:
@@ -49,6 +61,18 @@ functions:
       - http:
           path: /user/entry/prd/
           method: post
+          cors: 
+            # どのオリジンからのアクセスを受け付けるかどうか(今回は全て)
+            origin: '*'
+            # 許可するヘッダーを定義
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+            allowCredentials: true
 
   # ログインAPI
   login:
@@ -57,6 +81,18 @@ functions:
       - http:
           path: /user/login/
           method: post
+          cors: 
+            # どのオリジンからのアクセスを受け付けるかどうか(今回は全て)
+            origin: '*'
+            # 許可するヘッダーを定義
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+            allowCredentials: true
 
 resources:
   Resources:
@@ -152,6 +188,16 @@ resources:
         # 認可に用いるユーザプールのARNを指定
         ProviderARNs:
           - Fn::GetAtt: [ ApiGatewayWithAuthorizationUserPool, Arn ]
+
+    GatewayResponseDefault4XX:
+      Type: 'AWS::ApiGateway::GatewayResponse'
+      Properties:
+        ResponseParameters:
+          gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
+          gatewayresponse.header.Access-Control-Allow-Headers: "'*'"
+        ResponseType: DEFAULT_4XX
+        RestApiId:
+          Ref: 'ApiGatewayRestApi'
 
   # cloudformationの出力(コンソール等で確認可能)
   Outputs:
