@@ -1,18 +1,13 @@
 import json
 import boto3
-import logging
-logger = logging.getLogger()
-logger.setLevel(logging.INFO)
+from botocore.exceptions import ClientError
 
 
 def confirm_sign_up(email, confirmation_code):
     # 認証開始
-    # try:
+    try:
         aws_client = boto3.client(
             'cognito-idp'
-            # region_name='ap-northeast-1',
-            # aws_access_key_id='',
-            # aws_secret_access_key='',
         )
 
         aws_result = aws_client.confirm_sign_up(
@@ -21,31 +16,44 @@ def confirm_sign_up(email, confirmation_code):
             ConfirmationCode=confirmation_code,
         )
         
-        logger.info("テストだよ〜")
-
         # 本登録完了
-        return aws_result
+        return [aws_result]
 
-    # except:
-    #     # 認証失敗
-    #     return 'error'
+    except ClientError as e:
+        # 認証失敗
+        if e.response['Error']['Code'] == 'CodeMismatchException':
+            message =  "Wrong confirmation code"
+        else:
+            message =  "Unexpected error: %s" % e
+        return ['error', message]
 
 
 def handler(event, context):
     json_data = json.loads(event['body'])
-    confirm_sign_up(json_data['email'], json_data['confirmation_code'])
+    result = confirm_sign_up(json_data['email'], json_data['confirmation_code'])
 
-    body = {
-        "message": "prd successful",
-    }
+    if result[0] == 'error':
+        body = {
+            "message": result[1],
+        }
+        response = {
+            "statusCode": 400,
+            "headers": {
+                "Access-Control-Allow-Origin": "*"
+            },
+            "body": json.dumps(body)
+        }
+    else:
+        body = {
+            "message": "prd successful",
+        }
 
-    response = {
-        "statusCode": 200,
-        "headers": {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Credentials": "true"
-        },
-        "body": json.dumps(body)
-    }
+        response = {
+            "statusCode": 200,
+            "headers": {
+            "Access-Control-Allow-Origin": "*",
+            },
+            "body": json.dumps(body)
+        }
 
     return response

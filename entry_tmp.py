@@ -2,7 +2,6 @@ from email import message
 import json
 import boto3
 from botocore.exceptions import ClientError
-import traceback
 
 def sign_up(email, password):
     # 認証開始
@@ -31,7 +30,6 @@ def sign_up(email, password):
 
     except ClientError as e:
         # 認証失敗
-        traceback.print_exc()
         if e.response['Error']['Code'] == 'UsernameExistsException':
             message =  "Email address already exists"
         else:
@@ -55,7 +53,6 @@ def handler(event, context):
             "statusCode": 400,
             "headers": {
                 "Access-Control-Allow-Origin": "http://localhost:8080"
-                # "Access-Control-Allow-Credentials": "true"
             },
             "body": json.dumps(body)
         }
@@ -68,7 +65,6 @@ def handler(event, context):
             "statusCode": 200,
             "headers": {
                 "Access-Control-Allow-Origin": "http://localhost:8080"
-                # "Access-Control-Allow-Credentials": "true"
             },
             "body": json.dumps(body)
         }
