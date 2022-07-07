@@ -23,6 +23,8 @@ def confirm_sign_up(email, confirmation_code):
         # 認証失敗
         if e.response['Error']['Code'] == 'CodeMismatchException':
             message =  "Wrong confirmation code"
+        elif e.response['Error']['Code'] == 'ExpiredCodeException':
+            message =  "Code is not valid"
         else:
             message =  "Unexpected error: %s" % e
         return ['error', message]
