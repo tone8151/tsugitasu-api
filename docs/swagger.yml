@@ -134,9 +134,18 @@ paths:
           content:
             application/json: 
               schema:
-                $ref: "#/components/schemas/res"
-              example:
-                message: "Login failed"
+                oneOf:
+                  - $ref: "#/components/schemas/res"
+                  - $ref: "#/components/schemas/res"
+              examples:
+                response1:
+                  summary: メールアドレスかパスワードが間違っている場合
+                  value:
+                    message: "Login failed"
+                response2:
+                  summary: 仮登録は済んでいるが、本登録が済んでいないのにログインしようとした場合
+                  value:
+                    message: "Not confirmed"
 
         "502":
           description: "予期しないエラーが起きた場合"

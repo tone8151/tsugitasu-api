@@ -26,6 +26,7 @@ def sign_in(email, password):
 
         # 本登録完了
         return aws_result
+        UserNotConfirmedException
 
     # except:
     #     # 認証失敗
