@@ -1,16 +1,13 @@
 import json
 import boto3
-# logger = logging.getLogger()
-# logger.setLevel(logging.INFO)
+from botocore.exceptions import ClientError
+
 
 def sign_in(email, password):
     # 認証開始
-    # try:
+    try:
         aws_client = boto3.client(
             'cognito-idp'
-            # region_name='ap-northeast-1'
-            # aws_access_key_id='',
-            # aws_secret_access_key='',
         )
 
         aws_result = aws_client.admin_initiate_auth(
@@ -25,32 +22,50 @@ def sign_in(email, password):
         )
 
         # 本登録完了
-        return aws_result
-        UserNotConfirmedException
+        return [aws_result]
 
-    # except:
-    #     # 認証失敗
-    #     return aws_result
+    except ClientError as e:
+        # print(e.response['Error']['Code'f])
+        # 認証失敗
+        if e.response['Error']['Code'] == 'NotAuthorizedException':
+            message =  "Login failed"
+        elif e.response['Error']['Code'] == 'UserNotConfirmedException':
+            message =  "Not confirmed"
+        else:
+            message =  "Unexpected error: %s" % e
+        return ['error', message]
 
 
 def handler(event, context):
     json_data = json.loads(event['body'])
     result = sign_in(json_data['email'], json_data['password'])
 
-    print("result: ", result)
+    if result[0] == 'error':
+        body = {
+            "message": result[1],
+        }
+        response = {
+            "statusCode": 400,
+            "headers": {
+                "Access-Control-Allow-Origin": "*"
+            },
+            "body": json.dumps(body)
+        }
+    else:
+        body = {
+            "message": "login successful",
+            'AccessToken': result[0]['AuthenticationResult']['AccessToken'],
+            'RefreshToken': result[0]['AuthenticationResult']['RefreshToken'],
+            'IdToken': result[0]['AuthenticationResult']['IdToken']
+        }
 
-    response = {
-        "message": "login successful",
-        'AccessToken': result['AuthenticationResult']['AccessToken'],
-        'RefreshToken': result['AuthenticationResult']['RefreshToken'],
-        'IdToken': result['AuthenticationResult']['IdToken']
-    }
+        response = {
+            "statusCode": 200,
+            "headers": {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Credentials": "true"
+            },
+            "body": json.dumps(body)
+        }
 
-    return {
-        'statusCode': 200,
-        "headers": {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Credentials": "true"
-        },
-        'body': json.dumps(response)
-    }
+    return response
