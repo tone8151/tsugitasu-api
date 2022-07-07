@@ -7,7 +7,7 @@ logger.setLevel(logging.INFO)
 
 def confirm_sign_up(email, confirmation_code):
     # 認証開始
-    try:
+    # try:
         aws_client = boto3.client(
             'cognito-idp'
             # region_name='ap-northeast-1',
@@ -26,9 +26,9 @@ def confirm_sign_up(email, confirmation_code):
         # 本登録完了
         return aws_result
 
-    except:
-        # 認証失敗
-        return 'error'
+    # except:
+    #     # 認証失敗
+    #     return 'error'
 
 
 def handler(event, context):

@@ -1,6 +1,8 @@
+from email import message
 import json
 import boto3
-
+from botocore.exceptions import ClientError
+import traceback
 
 def sign_up(email, password):
     # 認証開始
@@ -25,28 +27,50 @@ def sign_up(email, password):
         )
 
         # 仮登録完了
-        return aws_result
+        return [aws_result]
 
-    except:
+    except ClientError as e:
         # 認証失敗
-        return 'error'
+        traceback.print_exc()
+        if e.response['Error']['Code'] == 'UsernameExistsException':
+            message =  "Email address already exists"
+        else:
+            message =  "Unexpected error: %s" % e
+        return ['error', message]
 
 
 def handler(event, context):
     json_data = json.loads(event['body'])
-    sign_up(json_data['email'], json_data['password'])
+    # try:
+    result = sign_up(json_data['email'], json_data['password'])
+    # except Exception as e:
+    #     traceback.print_exc()
+    #     result = ['error', e]
 
-    body = {
-        "message": "tmp successful",
-    }
+    if result[0] == 'error':
+        body = {
+            "message": result[1],
+        }
+        response = {
+            "statusCode": 400,
+            "headers": {
+                "Access-Control-Allow-Origin": "http://localhost:8080"
+                # "Access-Control-Allow-Credentials": "true"
+            },
+            "body": json.dumps(body)
+        }
+    else:
+        body = {
+            "message": "tmp successful",
+        }
 
-    response = {
-        "statusCode": 200,
-        "headers": {
-            "Access-Control-Allow-Origin": "http://localhost:8080"
-            # "Access-Control-Allow-Credentials": "true"
-        },
-        "body": json.dumps(body)
-    }
+        response = {
+            "statusCode": 200,
+            "headers": {
+                "Access-Control-Allow-Origin": "http://localhost:8080"
+                # "Access-Control-Allow-Credentials": "true"
+            },
+            "body": json.dumps(body)
+        }
 
     return response

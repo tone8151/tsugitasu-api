@@ -54,6 +54,22 @@ paths:
               message:
                 type: "string"
                 example: "tmp successful"
+        "400":
+          description: "メールアドレスが既に登録されている場合"
+          schema:
+            type: "object"
+            properties:
+              message:
+                type: "string"
+                example: "Email address already exists"
+        "502":
+          description: "予期しないリクエストが来た場合"
+          schema:
+            type: "object"
+            properties:
+              message:
+                type: "string"
+                example: "Internal server error"
   /user/entry/prd/:
     post:
       tags:

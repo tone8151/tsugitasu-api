@@ -43,7 +43,7 @@ functions:
           method: post
           cors: 
             # どのオリジンからのアクセスを受け付けるかどうか
-            origin: 'http://localhost:8080'
+            origin: '*'
             # 許可するヘッダーを定義
             headers:
               - Content-Type
