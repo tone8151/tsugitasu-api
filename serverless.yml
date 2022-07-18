@@ -1,4 +1,4 @@
-service: simple-authorization-project
+service: tsugitasu-authorization
 
 frameworkVersion: '3'
 
@@ -10,30 +10,6 @@ provider:
   region: ap-northeast-1
 
 functions:
-
-  # helloAPI
-  hello:
-    handler: hello.handler
-    events:
-      - http:
-          path: /hello/
-          method: get
-          authorizer:
-            type: COGNITO_USER_POOLS
-            authorizerId: !Ref ApiGatewayWithAuthorizationAuthorizer
-          cors:
-            # どのオリジンからのアクセスを受け付けるかどうか(今回は全て)
-            origin: '*'
-            # 許可するヘッダーを定義
-            headers:
-              - Content-Type
-              - X-Amz-Date
-              - Authorization
-              - X-Api-Key
-              - X-Amz-Security-Token
-              - X-Amz-User-Agent
-            allowCredentials: false
-
   # 仮登録API
   tmp:
     handler: entry_tmp.handler
@@ -119,8 +95,8 @@ resources:
           DeviceOnlyRememberedOnUserPrompt: true
         EmailConfiguration:
           EmailSendingAccount: COGNITO_DEFAULT
-        EmailVerificationMessage: 'Your verification code is {####}.'
-        EmailVerificationSubject: 'Your verification code'
+        EmailVerificationMessage: '認証コードは<br>{####}<br>です。'
+        EmailVerificationSubject: '認証コードのお知らせ'
         MfaConfiguration: OFF
         Policies:
           PasswordPolicy:
@@ -136,6 +112,11 @@ resources:
             Mutable: true
             Name: email
             Required: true
+          - AttributeDataType: String
+            DeveloperOnlyAttribute: false
+            Mutable: true
+            Name: nickname
+            Required: false
         SmsAuthenticationMessage: 'Your verification code is {####}.'
         SmsVerificationMessage: 'Your verification code is {####}.'
         UsernameConfiguration:
@@ -147,8 +128,8 @@ resources:
           Service: ${self:service}-${self:provider.stage}
         VerificationMessageTemplate:
           DefaultEmailOption: CONFIRM_WITH_CODE #
-          EmailMessage: 'Your verification code is {####}.'
-          EmailSubject: 'Your verification code'
+          EmailMessage: '認証コードは{####}です。'
+          EmailSubject: '認証コードのお知らせ'
           SmsMessage: 'Your verification code is {####}.'
 
     ApiGatewayWithAuthorizationUserPoolClient:
@@ -167,6 +148,7 @@ resources:
         PreventUserExistenceErrors: ENABLED
         ReadAttributes:
           - email
+          - nickname
         RefreshTokenValidity: 10
         SupportedIdentityProviders:
           - COGNITO
@@ -174,6 +156,7 @@ resources:
           Ref: ApiGatewayWithAuthorizationUserPool
         WriteAttributes:
           - email
+          - nickname
 
     ApiGatewayWithAuthorizationAuthorizer:
       Type: AWS::ApiGateway::Authorizer

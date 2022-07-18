@@ -11,7 +11,7 @@ def confirm_sign_up(email, confirmation_code):
         )
 
         aws_result = aws_client.confirm_sign_up(
-            ClientId="4nrc7i4dgeurnnp0ollgq28an1",
+            ClientId="2dv8ikehvfiqv84mksitc9jq59",
             Username=email,
             ConfirmationCode=confirmation_code,
         )

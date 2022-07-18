@@ -2,10 +2,10 @@
 openapi: 3.0.0
 info:
   description: "API仕様書"
-  version: "1.0.0"
+  version: "2.0.0"
   title: "tsugitasu-api"
 servers:
-  - url: "0dpf7vjoce.execute-api.ap-northeast-1.amazonaws.com/dev"
+  - url: "ugdhjkc6j2.execute-api.ap-northeast-1.amazonaws.com/dev"
     variables:
       protocol:
         default: https
@@ -21,13 +21,14 @@ paths:
       tags:
       - "user"
       summary: "ユーザーによる仮登録"
-      description: "仮登録が成功すると、送信したメールアドレス宛に確認コードが届く"
+      description: "仮登録が成功すると、送信したメールアドレス宛に確認コードが届く。nicknameは日本語でも英語でも可"
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/req_mail_pass"
+              $ref: "#/components/schemas/req_mail_pass_nickname"
             example:
+              nickname: "ホゲホゲさん"
               email: "hoge@example.com"
               password: "hogehoge345"
       responses:
@@ -160,6 +161,15 @@ components:
     req_mail_pass: 
       type: object
       properties:
+        email:
+          type: string
+        password:
+          type: string
+    req_mail_pass_nickname: 
+      type: object
+      properties:
+        nickname:
+          type: string
         email:
           type: string
         password:

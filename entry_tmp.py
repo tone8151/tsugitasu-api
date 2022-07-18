@@ -3,7 +3,7 @@ import json
 import boto3
 from botocore.exceptions import ClientError
 
-def sign_up(user_nickname, email, password):
+def sign_up(nickname, email, password):
     # 認証開始
     try:
         aws_client = boto3.client(
@@ -14,7 +14,7 @@ def sign_up(user_nickname, email, password):
         )
 
         aws_result = aws_client.sign_up(
-            ClientId="4nrc7i4dgeurnnp0ollgq28an1",
+            ClientId="2dv8ikehvfiqv84mksitc9jq59",
             Username=email,
             Password=password,
             UserAttributes=[
@@ -23,8 +23,8 @@ def sign_up(user_nickname, email, password):
                     'Value': email
                 },
                 {
-                    'Name': 'user_nickname',
-                    'Value': user_nickname
+                    'Name': 'nickname',
+                    'Value': nickname
                 }
             ]
         )
@@ -44,7 +44,7 @@ def sign_up(user_nickname, email, password):
 def handler(event, context):
     json_data = json.loads(event['body'])
     # try:
-    result = sign_up(json_data['user_nickname'], json_data['email'], json_data['password'])
+    result = sign_up(json_data['nickname'], json_data['email'], json_data['password'])
     # except Exception as e:
     #     traceback.print_exc()
     #     result = ['error', e]

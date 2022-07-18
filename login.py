@@ -11,8 +11,8 @@ def sign_in(email, password):
         )
 
         aws_result = aws_client.admin_initiate_auth(
-            UserPoolId="ap-northeast-1_ZjLlvynDn",
-            ClientId="4nrc7i4dgeurnnp0ollgq28an1",
+            UserPoolId="ap-northeast-1_63jmy2ITn",
+            ClientId="2dv8ikehvfiqv84mksitc9jq59",
             # AuthFlow="ADMIN_USER_PASSWORD_AUTH",
             AuthFlow="ADMIN_NO_SRP_AUTH",
             AuthParameters={
