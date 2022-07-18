@@ -3,7 +3,7 @@ import json
 import boto3
 from botocore.exceptions import ClientError
 
-def sign_up(email, password):
+def sign_up(user_nickname, email, password):
     # 認証開始
     try:
         aws_client = boto3.client(
@@ -22,6 +22,10 @@ def sign_up(email, password):
                     'Name': 'email',
                     'Value': email
                 },
+                {
+                    'Name': 'user_nickname',
+                    'Value': user_nickname
+                }
             ]
         )
 
@@ -40,7 +44,7 @@ def sign_up(email, password):
 def handler(event, context):
     json_data = json.loads(event['body'])
     # try:
-    result = sign_up(json_data['email'], json_data['password'])
+    result = sign_up(json_data['user_nickname'], json_data['email'], json_data['password'])
     # except Exception as e:
     #     traceback.print_exc()
     #     result = ['error', e]
@@ -52,7 +56,7 @@ def handler(event, context):
         response = {
             "statusCode": 400,
             "headers": {
-                "Access-Control-Allow-Origin": "http://localhost:8080"
+                "Access-Control-Allow-Origin": "*"
             },
             "body": json.dumps(body)
         }
@@ -64,7 +68,7 @@ def handler(event, context):
         response = {
             "statusCode": 200,
             "headers": {
-                "Access-Control-Allow-Origin": "http://localhost:8080"
+                "Access-Control-Allow-Origin": "*"
             },
             "body": json.dumps(body)
         }
