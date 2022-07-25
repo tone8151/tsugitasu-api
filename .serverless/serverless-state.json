@@ -90,6 +90,12 @@
               "LogGroupName": "/aws/lambda/tsugitasu-authorization-dev-tmp"
             }
           },
+          "PostConfirmationLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/lambda/tsugitasu-authorization-dev-postConfirmation"
+            }
+          },
           "PrdLogGroup": {
             "Type": "AWS::Logs::LogGroup",
             "Properties": {
@@ -186,7 +192,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/tsugitasu-authorization/dev/1658140000618-2022-07-18T10:26:40.618Z/tsugitasu-authorization.zip"
+                "S3Key": "serverless/tsugitasu-authorization/dev/1658292575139-2022-07-20T04:49:35.139Z/tsugitasu-authorization.zip"
               },
               "Handler": "entry_tmp.handler",
               "Runtime": "python3.8",
@@ -204,6 +210,31 @@
               "TmpLogGroup"
             ]
           },
+          "PostConfirmationLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": {
+                  "Ref": "ServerlessDeploymentBucket"
+                },
+                "S3Key": "serverless/tsugitasu-authorization/dev/1658292575139-2022-07-20T04:49:35.139Z/tsugitasu-authorization.zip"
+              },
+              "Handler": "postConfirmation.handler",
+              "Runtime": "python3.8",
+              "FunctionName": "tsugitasu-authorization-dev-postConfirmation",
+              "MemorySize": 1024,
+              "Timeout": 6,
+              "Role": {
+                "Fn::GetAtt": [
+                  "IamRoleLambdaExecution",
+                  "Arn"
+                ]
+              }
+            },
+            "DependsOn": [
+              "PostConfirmationLogGroup"
+            ]
+          },
           "PrdLambdaFunction": {
             "Type": "AWS::Lambda::Function",
             "Properties": {
@@ -211,7 +242,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/tsugitasu-authorization/dev/1658140000618-2022-07-18T10:26:40.618Z/tsugitasu-authorization.zip"
+                "S3Key": "serverless/tsugitasu-authorization/dev/1658292575139-2022-07-20T04:49:35.139Z/tsugitasu-authorization.zip"
               },
               "Handler": "entry_prd.handler",
               "Runtime": "python3.8",
@@ -236,7 +267,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/tsugitasu-authorization/dev/1658140000618-2022-07-18T10:26:40.618Z/tsugitasu-authorization.zip"
+                "S3Key": "serverless/tsugitasu-authorization/dev/1658292575139-2022-07-20T04:49:35.139Z/tsugitasu-authorization.zip"
               },
               "Handler": "login.handler",
               "Runtime": "python3.8",
@@ -254,34 +285,44 @@
               "LoginLogGroup"
             ]
           },
-          "TmpLambdaVersion1COFsuWjPqd3FRG8pkDuClGY4e4NZE9zWai26ioGY": {
+          "TmpLambdaVersionOM552dIV9bSAtDjKEqROweueLXNtPvnuRvmzSD4b0": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "TmpLambdaFunction"
               },
-              "CodeSha256": "H1hPGMUk/OI9KVf1AJGj08Y5JOYO7v07WjjnwzyRZnk="
+              "CodeSha256": "/aoGPIphP4Bl3B9ZWW6kGrZnrKdCXQlJ4wCFKFIx+Bs="
             }
           },
-          "PrdLambdaVersion5ea801c1hkHeRfS4Mh4YFAlxUh2RO2YVM68nhQgDw8": {
+          "PostConfirmationLambdaVersionSCgFMdulDvkhMMO2WhH2SFjdVOA28jNfrXuJqUQk": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "PostConfirmationLambdaFunction"
+              },
+              "CodeSha256": "/aoGPIphP4Bl3B9ZWW6kGrZnrKdCXQlJ4wCFKFIx+Bs="
+            }
+          },
+          "PrdLambdaVersionDX3hUhUZBcjLpvtXKY4mtK2dArGJCdc5KkCgsWuw": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "PrdLambdaFunction"
               },
-              "CodeSha256": "H1hPGMUk/OI9KVf1AJGj08Y5JOYO7v07WjjnwzyRZnk="
+              "CodeSha256": "/aoGPIphP4Bl3B9ZWW6kGrZnrKdCXQlJ4wCFKFIx+Bs="
             }
           },
-          "LoginLambdaVersionDvOrggeTOx8NNVUHncFi98z1hRZ7wpK3VeVKI3LO1E": {
+          "LoginLambdaVersion5c3V2XjKgLZRoX9zXgM6rNnAmuE7ArV3qEwTJRU": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "LoginLambdaFunction"
               },
-              "CodeSha256": "H1hPGMUk/OI9KVf1AJGj08Y5JOYO7v07WjjnwzyRZnk="
+              "CodeSha256": "/aoGPIphP4Bl3B9ZWW6kGrZnrKdCXQlJ4wCFKFIx+Bs="
             }
           },
           "ApiGatewayRestApi": {
@@ -636,7 +677,7 @@
               "LoginLambdaPermissionApiGateway"
             ]
           },
-          "ApiGatewayDeployment1658140000051": {
+          "ApiGatewayDeployment1658292574568": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -764,6 +805,122 @@
               }
             }
           },
+          "PostConfirmationCustomCognitoUserPool1": {
+            "Type": "Custom::CognitoUserPool",
+            "Version": 1,
+            "DependsOn": [
+              "PostConfirmationLambdaFunction",
+              "CustomDashresourceDashexistingDashcupLambdaFunction"
+            ],
+            "Properties": {
+              "ServiceToken": {
+                "Fn::GetAtt": [
+                  "CustomDashresourceDashexistingDashcupLambdaFunction",
+                  "Arn"
+                ]
+              },
+              "FunctionName": "tsugitasu-authorization-dev-postConfirmation",
+              "UserPoolName": "tsugitasu-authorization-dev-user-pool",
+              "UserPoolConfigs": [
+                {
+                  "Trigger": "PreSignUp"
+                }
+              ]
+            }
+          },
+          "IamRoleCustomResourcesLambdaExecution": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+              "AssumeRolePolicyDocument": {
+                "Version": "2012-10-17",
+                "Statement": [
+                  {
+                    "Effect": "Allow",
+                    "Principal": {
+                      "Service": [
+                        "lambda.amazonaws.com"
+                      ]
+                    },
+                    "Action": [
+                      "sts:AssumeRole"
+                    ]
+                  }
+                ]
+              },
+              "Policies": [
+                {
+                  "PolicyName": {
+                    "Fn::Join": [
+                      "-",
+                      [
+                        "dev",
+                        "tsugitasu-authorization",
+                        "custom-resources-lambda"
+                      ]
+                    ]
+                  },
+                  "PolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                      {
+                        "Effect": "Allow",
+                        "Resource": "*",
+                        "Action": [
+                          "cognito-idp:ListUserPools",
+                          "cognito-idp:DescribeUserPool",
+                          "cognito-idp:UpdateUserPool"
+                        ]
+                      },
+                      {
+                        "Effect": "Allow",
+                        "Resource": {
+                          "Fn::Sub": "arn:${AWS::Partition}:lambda:*:*:function:tsugitasu-authorization-dev-postConfirmation"
+                        },
+                        "Action": [
+                          "lambda:AddPermission",
+                          "lambda:RemovePermission"
+                        ]
+                      },
+                      {
+                        "Effect": "Allow",
+                        "Resource": {
+                          "Fn::Sub": "arn:${AWS::Partition}:iam::*:role/*"
+                        },
+                        "Action": [
+                          "iam:PassRole"
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          "CustomDashresourceDashexistingDashcupLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": {
+                  "Ref": "ServerlessDeploymentBucket"
+                },
+                "S3Key": "serverless/tsugitasu-authorization/dev/1658292575139-2022-07-20T04:49:35.139Z/custom-resources.zip"
+              },
+              "FunctionName": "tsugitasu-authorization-dev-custom-resource-existing-cup",
+              "Handler": "cognito-user-pool/handler.handler",
+              "MemorySize": 1024,
+              "Runtime": "nodejs14.x",
+              "Timeout": 180,
+              "Role": {
+                "Fn::GetAtt": [
+                  "IamRoleCustomResourcesLambdaExecution",
+                  "Arn"
+                ]
+              }
+            },
+            "DependsOn": [
+              "IamRoleCustomResourcesLambdaExecution"
+            ]
+          },
           "ApiGatewayWithAuthorizationUserPool": {
             "Type": "AWS::Cognito::UserPool",
             "Properties": {
@@ -796,8 +953,8 @@
               "EmailConfiguration": {
                 "EmailSendingAccount": "COGNITO_DEFAULT"
               },
-              "EmailVerificationMessage": "認証コードは\\n{####}\\nです。",
-              "EmailVerificationSubject": "認証コードのお知らせだよ",
+              "EmailVerificationMessage": "認証コードは<br>{####}<br>です。",
+              "EmailVerificationSubject": "認証コードのお知らせ",
               "MfaConfiguration": "OFF",
               "Policies": {
                 "PasswordPolicy": {
@@ -839,7 +996,7 @@
               },
               "VerificationMessageTemplate": {
                 "DefaultEmailOption": "CONFIRM_WITH_CODE",
-                "EmailMessage": "認証コードは{####}です。",
+                "EmailMessage": "認証コードは<br>{####}<br>です。",
                 "EmailSubject": "認証コードのお知らせ",
                 "SmsMessage": "Your verification code is {####}."
               }
@@ -927,16 +1084,25 @@
           "TmpLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "TmpLambdaVersion1COFsuWjPqd3FRG8pkDuClGY4e4NZE9zWai26ioGY"
+              "Ref": "TmpLambdaVersionOM552dIV9bSAtDjKEqROweueLXNtPvnuRvmzSD4b0"
             },
             "Export": {
               "Name": "sls-tsugitasu-authorization-dev-TmpLambdaFunctionQualifiedArn"
             }
           },
+          "PostConfirmationLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "PostConfirmationLambdaVersionSCgFMdulDvkhMMO2WhH2SFjdVOA28jNfrXuJqUQk"
+            },
+            "Export": {
+              "Name": "sls-tsugitasu-authorization-dev-PostConfirmationLambdaFunctionQualifiedArn"
+            }
+          },
           "PrdLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "PrdLambdaVersion5ea801c1hkHeRfS4Mh4YFAlxUh2RO2YVM68nhQgDw8"
+              "Ref": "PrdLambdaVersionDX3hUhUZBcjLpvtXKY4mtK2dArGJCdc5KkCgsWuw"
             },
             "Export": {
               "Name": "sls-tsugitasu-authorization-dev-PrdLambdaFunctionQualifiedArn"
@@ -945,7 +1111,7 @@
           "LoginLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "LoginLambdaVersionDvOrggeTOx8NNVUHncFi98z1hRZ7wpK3VeVKI3LO1E"
+              "Ref": "LoginLambdaVersion5c3V2XjKgLZRoX9zXgM6rNnAmuE7ArV3qEwTJRU"
             },
             "Export": {
               "Name": "sls-tsugitasu-authorization-dev-LoginLambdaFunctionQualifiedArn"
@@ -1116,7 +1282,26 @@
         "timeout": 6,
         "runtime": "python3.8",
         "vpc": {},
-        "versionLogicalId": "TmpLambdaVersion1COFsuWjPqd3FRG8pkDuClGY4e4NZE9zWai26ioGY"
+        "versionLogicalId": "TmpLambdaVersionOM552dIV9bSAtDjKEqROweueLXNtPvnuRvmzSD4b0"
+      },
+      "postConfirmation": {
+        "handler": "postConfirmation.handler",
+        "events": [
+          {
+            "cognitoUserPool": {
+              "pool": "tsugitasu-authorization-dev-user-pool",
+              "trigger": "PreSignUp",
+              "existing": true
+            }
+          }
+        ],
+        "name": "tsugitasu-authorization-dev-postConfirmation",
+        "package": {},
+        "memory": 1024,
+        "timeout": 6,
+        "runtime": "python3.8",
+        "vpc": {},
+        "versionLogicalId": "PostConfirmationLambdaVersionSCgFMdulDvkhMMO2WhH2SFjdVOA28jNfrXuJqUQk"
       },
       "prd": {
         "handler": "entry_prd.handler",
@@ -1151,7 +1336,7 @@
         "timeout": 6,
         "runtime": "python3.8",
         "vpc": {},
-        "versionLogicalId": "PrdLambdaVersion5ea801c1hkHeRfS4Mh4YFAlxUh2RO2YVM68nhQgDw8"
+        "versionLogicalId": "PrdLambdaVersionDX3hUhUZBcjLpvtXKY4mtK2dArGJCdc5KkCgsWuw"
       },
       "login": {
         "handler": "login.handler",
@@ -1186,7 +1371,7 @@
         "timeout": 6,
         "runtime": "python3.8",
         "vpc": {},
-        "versionLogicalId": "LoginLambdaVersionDvOrggeTOx8NNVUHncFi98z1hRZ7wpK3VeVKI3LO1E"
+        "versionLogicalId": "LoginLambdaVersion5c3V2XjKgLZRoX9zXgM6rNnAmuE7ArV3qEwTJRU"
       }
     },
     "resources": {
@@ -1223,8 +1408,8 @@
             "EmailConfiguration": {
               "EmailSendingAccount": "COGNITO_DEFAULT"
             },
-            "EmailVerificationMessage": "認証コードは\\n{####}\\nです。",
-            "EmailVerificationSubject": "認証コードのお知らせだよ",
+            "EmailVerificationMessage": "認証コードは<br>{####}<br>です。",
+            "EmailVerificationSubject": "認証コードのお知らせ",
             "MfaConfiguration": "OFF",
             "Policies": {
               "PasswordPolicy": {
@@ -1266,7 +1451,7 @@
             },
             "VerificationMessageTemplate": {
               "DefaultEmailOption": "CONFIRM_WITH_CODE",
-              "EmailMessage": "認証コードは{####}です。",
+              "EmailMessage": "認証コードは<br>{####}<br>です。",
               "EmailSubject": "認証コードのお知らせ",
               "SmsMessage": "Your verification code is {####}."
             }
@@ -1383,7 +1568,7 @@
     "artifact": "/Users/yukihikotone/tsugitasu_dev/tsugitasu_authorization/.serverless/tsugitasu-authorization.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/tsugitasu-authorization/dev/1658140000618-2022-07-18T10:26:40.618Z",
+    "artifactDirectoryName": "serverless/tsugitasu-authorization/dev/1658292575139-2022-07-20T04:49:35.139Z",
     "artifact": "tsugitasu-authorization.zip"
   }
 }

@@ -29,7 +29,16 @@ functions:
               - X-Amz-Security-Token
               - X-Amz-User-Agent
             allowCredentials: false
-
+  # signup時に入力したmailやnicknameをDBにも格納
+  postConfirmation:
+    handler: postConfirmation.handler
+    events:
+      - cognitoUserPool:
+          # pool: ${self:service}-${self:provider.stage}-user-pool
+          pool: ${self:service}-${self:provider.stage}-user-pool
+          # trigger: PostConfirmation
+          trigger: PreSignUp
+          existing: true
   # 本登録API
   prd:
     handler: entry_prd.handler
@@ -128,7 +137,7 @@ resources:
           Service: ${self:service}-${self:provider.stage}
         VerificationMessageTemplate:
           DefaultEmailOption: CONFIRM_WITH_CODE #
-          EmailMessage: '認証コードは{####}です。'
+          EmailMessage: '認証コードは<br>{####}<br>です。'
           EmailSubject: '認証コードのお知らせ'
           SmsMessage: 'Your verification code is {####}.'
 
