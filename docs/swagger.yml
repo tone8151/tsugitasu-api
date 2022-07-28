@@ -164,6 +164,8 @@ paths:
       - "create"
       summary: "授業の作成"
       description: ""
+      security:
+        - Bearer: []
       requestBody:
         content:
           application/json:
@@ -258,3 +260,8 @@ components:
           type: "string"
         IdToken:
           type: "string"
+  securitySchemes:
+    Bearer:
+      type: http
+      scheme: bearer
+      description: Credentials or access token for API

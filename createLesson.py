@@ -4,34 +4,6 @@ from botocore.exceptions import ClientError
 import uuid
 import datetime
 
-
-# def confirm_sign_up(email, confirmation_code):
-#     # 認証開始
-#     try:
-#         aws_client = boto3.client(
-#             "cognito-idp"
-#         )
-
-#         aws_result = aws_client.confirm_sign_up(
-#             ClientId="2dv8ikehvfiqv84mksitc9jq59",
-#             Username=email,
-#             ConfirmationCode=confirmation_code,
-#         )
-        
-#         # 本登録完了
-#         return [aws_result]
-
-#     except ClientError as e:
-#         # 認証失敗
-#         if e.response["Error"]["Code"] == "CodeMismatchException":
-#             message =  "Wrong confirmation code"
-#         elif e.response["Error"]["Code"] == "ExpiredCodeException":
-#             message =  "Code is not valid"
-#         else:
-#             message =  "Unexpected error: %s" % e
-#         return ["error", message]
-
-
 def handler(event, context):
     # dynamodb_client = boto3.client(
     #     "dynamodb"
