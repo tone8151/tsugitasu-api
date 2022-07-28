@@ -8,6 +8,14 @@ provider:
   lambdaHashingVersion: 20201221
   stage: dev
   region: ap-northeast-1
+  iam:
+    role:
+      statements:
+        - Effect: "Allow"
+          Action:
+            - "dynamodb:*"
+          Resource: '*'
+            # - arn:aws:dynamodb:ap-northeast-1:805557091016:table/lessons
 
 functions:
   # 仮登録API
@@ -29,16 +37,35 @@ functions:
               - X-Amz-Security-Token
               - X-Amz-User-Agent
             allowCredentials: false
-  # signup時に入力したmailやnicknameをDBにも格納
-  postConfirmation:
-    handler: postConfirmation.handler
+  # 授業作成API
+  createLesson:
+    handler: createLesson.handler
     events:
-      - cognitoUserPool:
-          # pool: ${self:service}-${self:provider.stage}-user-pool
-          pool: ${self:service}-${self:provider.stage}-user-pool
-          # trigger: PostConfirmation
-          trigger: PreSignUp
-          existing: true
+      - http:
+          path: /create/lesson/
+          method: post
+          cors: 
+            # どのオリジンからのアクセスを受け付けるかどうか
+            origin: '*'
+            # 許可するヘッダーを定義
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+            allowCredentials: false
+  # signup時に入力したmailやnicknameをDBにも格納
+  # postConfirmation:
+  #   handler: postConfirmation.handler
+  #   events:
+  #     - cognitoUserPool:
+  #         # pool: ${self:service}-${self:provider.stage}-user-pool
+  #         pool: ${self:service}-${self:provider.stage}-user-pool
+  #         # trigger: PostConfirmation
+  #         trigger: PreSignUp
+  #         existing: true
   # 本登録API
   prd:
     handler: entry_prd.handler

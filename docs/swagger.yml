@@ -14,7 +14,9 @@ servers:
           - https
 tags:
 - name: "user"
-  description: "Operations about user"
+  description: "ユーザーに関するオペレーション"
+- name: "create"
+  description: "教材や授業の新規作成に関するオペレーション"
 paths:
   /user/entry/tmp/:
     post:
@@ -156,8 +158,67 @@ paths:
                 $ref: "#/components/schemas/res"
               example:
                 message: "Internal server error"
+  /create/lesson/:
+    post:
+      tags:
+      - "create"
+      summary: "授業の作成"
+      description: ""
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/req_create_lesson"
+            example:
+              lesson_name: "高校数学"
+              created_by: "5af86f17-c263-465b-9439-4e8773ba5600"
+              outline: "高校の数学の授業です"
+              Public: true
+              icon:
+                color: "Yellow"
+                file_name: "hoge.svz"
+              materials: 
+                - "jav3o39"
+                - "qhptr95"
+              tags:
+                - "数学"
+                - "高校"
+      responses:
+        "200":
+          description: "作成成功"
+          content:
+            application/json: 
+              schema:
+                $ref: "#/components/schemas/res"
+              example:
+                message: "successful"
+        "502":
+          description: "作成失敗"
+          content:
+            application/json: 
+              schema:
+                $ref: "#/components/schemas/res"
+              example:
+                message: "Internal server error"
 components:
   schemas:
+    req_create_lesson: 
+      type: object
+      properties:
+        lesson_name:
+          type: string
+        created_by:
+          type: string
+        outline:
+          type: string
+        Public:
+          type: boolean
+        icon:
+          type: object
+        materials:
+          type: array
+        tags:
+          type: array
     req_mail_pass: 
       type: object
       properties:

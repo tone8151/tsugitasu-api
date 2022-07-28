@@ -77,10 +77,10 @@
         "LogGroupName": "/aws/lambda/tsugitasu-authorization-dev-tmp"
       }
     },
-    "PostConfirmationLogGroup": {
+    "CreateLessonLogGroup": {
       "Type": "AWS::Logs::LogGroup",
       "Properties": {
-        "LogGroupName": "/aws/lambda/tsugitasu-authorization-dev-postConfirmation"
+        "LogGroupName": "/aws/lambda/tsugitasu-authorization-dev-createLesson"
       }
     },
     "PrdLogGroup": {
@@ -151,6 +151,13 @@
                       "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/tsugitasu-authorization-dev*:*:*"
                     }
                   ]
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "dynamodb:*"
+                  ],
+                  "Resource": "*"
                 }
               ]
             }
@@ -179,7 +186,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/tsugitasu-authorization/dev/1658292575139-2022-07-20T04:49:35.139Z/tsugitasu-authorization.zip"
+          "S3Key": "serverless/tsugitasu-authorization/dev/1658894523374-2022-07-27T04:02:03.374Z/tsugitasu-authorization.zip"
         },
         "Handler": "entry_tmp.handler",
         "Runtime": "python3.8",
@@ -197,18 +204,18 @@
         "TmpLogGroup"
       ]
     },
-    "PostConfirmationLambdaFunction": {
+    "CreateLessonLambdaFunction": {
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Code": {
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/tsugitasu-authorization/dev/1658292575139-2022-07-20T04:49:35.139Z/tsugitasu-authorization.zip"
+          "S3Key": "serverless/tsugitasu-authorization/dev/1658894523374-2022-07-27T04:02:03.374Z/tsugitasu-authorization.zip"
         },
-        "Handler": "postConfirmation.handler",
+        "Handler": "createLesson.handler",
         "Runtime": "python3.8",
-        "FunctionName": "tsugitasu-authorization-dev-postConfirmation",
+        "FunctionName": "tsugitasu-authorization-dev-createLesson",
         "MemorySize": 1024,
         "Timeout": 6,
         "Role": {
@@ -219,7 +226,7 @@
         }
       },
       "DependsOn": [
-        "PostConfirmationLogGroup"
+        "CreateLessonLogGroup"
       ]
     },
     "PrdLambdaFunction": {
@@ -229,7 +236,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/tsugitasu-authorization/dev/1658292575139-2022-07-20T04:49:35.139Z/tsugitasu-authorization.zip"
+          "S3Key": "serverless/tsugitasu-authorization/dev/1658894523374-2022-07-27T04:02:03.374Z/tsugitasu-authorization.zip"
         },
         "Handler": "entry_prd.handler",
         "Runtime": "python3.8",
@@ -254,7 +261,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/tsugitasu-authorization/dev/1658292575139-2022-07-20T04:49:35.139Z/tsugitasu-authorization.zip"
+          "S3Key": "serverless/tsugitasu-authorization/dev/1658894523374-2022-07-27T04:02:03.374Z/tsugitasu-authorization.zip"
         },
         "Handler": "login.handler",
         "Runtime": "python3.8",
@@ -272,44 +279,44 @@
         "LoginLogGroup"
       ]
     },
-    "TmpLambdaVersionOM552dIV9bSAtDjKEqROweueLXNtPvnuRvmzSD4b0": {
+    "TmpLambdaVersionKn86hcgeyQ8GB79rGXxUQ9a0b8wz6b7FOmEso5FpL8": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "TmpLambdaFunction"
         },
-        "CodeSha256": "/aoGPIphP4Bl3B9ZWW6kGrZnrKdCXQlJ4wCFKFIx+Bs="
+        "CodeSha256": "e8QSy6ckKEYwkSAvUNNktAQ8lfHWsdM57CEhRKwY5cI="
       }
     },
-    "PostConfirmationLambdaVersionSCgFMdulDvkhMMO2WhH2SFjdVOA28jNfrXuJqUQk": {
+    "CreateLessonLambdaVersionTg9h72moRIdSmmqssgnVQyJrHWQQCCwbZ5ytpMdc4E": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
-          "Ref": "PostConfirmationLambdaFunction"
+          "Ref": "CreateLessonLambdaFunction"
         },
-        "CodeSha256": "/aoGPIphP4Bl3B9ZWW6kGrZnrKdCXQlJ4wCFKFIx+Bs="
+        "CodeSha256": "e8QSy6ckKEYwkSAvUNNktAQ8lfHWsdM57CEhRKwY5cI="
       }
     },
-    "PrdLambdaVersionDX3hUhUZBcjLpvtXKY4mtK2dArGJCdc5KkCgsWuw": {
+    "PrdLambdaVersionUsth4yqgA2jugJGUcmGi1UnpGDyuMEcidVt7TBRTMsQ": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "PrdLambdaFunction"
         },
-        "CodeSha256": "/aoGPIphP4Bl3B9ZWW6kGrZnrKdCXQlJ4wCFKFIx+Bs="
+        "CodeSha256": "e8QSy6ckKEYwkSAvUNNktAQ8lfHWsdM57CEhRKwY5cI="
       }
     },
-    "LoginLambdaVersion5c3V2XjKgLZRoX9zXgM6rNnAmuE7ArV3qEwTJRU": {
+    "LoginLambdaVersionnDKM8Ad3qTFVf4fcs87uAbTtUkeMRCfU10FwHP9b0": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "LoginLambdaFunction"
         },
-        "CodeSha256": "/aoGPIphP4Bl3B9ZWW6kGrZnrKdCXQlJ4wCFKFIx+Bs="
+        "CodeSha256": "e8QSy6ckKEYwkSAvUNNktAQ8lfHWsdM57CEhRKwY5cI="
       }
     },
     "ApiGatewayRestApi": {
@@ -387,6 +394,33 @@
         }
       }
     },
+    "ApiGatewayResourceCreate": {
+      "Type": "AWS::ApiGateway::Resource",
+      "Properties": {
+        "ParentId": {
+          "Fn::GetAtt": [
+            "ApiGatewayRestApi",
+            "RootResourceId"
+          ]
+        },
+        "PathPart": "create",
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        }
+      }
+    },
+    "ApiGatewayResourceCreateLesson": {
+      "Type": "AWS::ApiGateway::Resource",
+      "Properties": {
+        "ParentId": {
+          "Ref": "ApiGatewayResourceCreate"
+        },
+        "PathPart": "lesson",
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        }
+      }
+    },
     "ApiGatewayMethodUserEntryTmpOptions": {
       "Type": "AWS::ApiGateway::Method",
       "Properties": {
@@ -426,6 +460,51 @@
         },
         "ResourceId": {
           "Ref": "ApiGatewayResourceUserEntryTmp"
+        },
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        }
+      }
+    },
+    "ApiGatewayMethodCreateLessonOptions": {
+      "Type": "AWS::ApiGateway::Method",
+      "Properties": {
+        "AuthorizationType": "NONE",
+        "HttpMethod": "OPTIONS",
+        "MethodResponses": [
+          {
+            "StatusCode": "200",
+            "ResponseParameters": {
+              "method.response.header.Access-Control-Allow-Origin": true,
+              "method.response.header.Access-Control-Allow-Headers": true,
+              "method.response.header.Access-Control-Allow-Methods": true
+            },
+            "ResponseModels": {}
+          }
+        ],
+        "RequestParameters": {},
+        "Integration": {
+          "Type": "MOCK",
+          "RequestTemplates": {
+            "application/json": "{statusCode:200}"
+          },
+          "ContentHandling": "CONVERT_TO_TEXT",
+          "IntegrationResponses": [
+            {
+              "StatusCode": "200",
+              "ResponseParameters": {
+                "method.response.header.Access-Control-Allow-Origin": "'*'",
+                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,POST'"
+              },
+              "ResponseTemplates": {
+                "application/json": ""
+              }
+            }
+          ]
+        },
+        "ResourceId": {
+          "Ref": "ApiGatewayResourceCreateLesson"
         },
         "RestApiId": {
           "Ref": "ApiGatewayRestApi"
@@ -572,6 +651,52 @@
         "TmpLambdaPermissionApiGateway"
       ]
     },
+    "ApiGatewayMethodCreateLessonPost": {
+      "Type": "AWS::ApiGateway::Method",
+      "Properties": {
+        "HttpMethod": "POST",
+        "RequestParameters": {},
+        "ResourceId": {
+          "Ref": "ApiGatewayResourceCreateLesson"
+        },
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        },
+        "ApiKeyRequired": false,
+        "AuthorizationType": "NONE",
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "Type": "AWS_PROXY",
+          "Uri": {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":apigateway:",
+                {
+                  "Ref": "AWS::Region"
+                },
+                ":lambda:path/2015-03-31/functions/",
+                {
+                  "Fn::GetAtt": [
+                    "CreateLessonLambdaFunction",
+                    "Arn"
+                  ]
+                },
+                "/invocations"
+              ]
+            ]
+          }
+        },
+        "MethodResponses": []
+      },
+      "DependsOn": [
+        "CreateLessonLambdaPermissionApiGateway"
+      ]
+    },
     "ApiGatewayMethodUserEntryPrdPost": {
       "Type": "AWS::ApiGateway::Method",
       "Properties": {
@@ -664,7 +789,7 @@
         "LoginLambdaPermissionApiGateway"
       ]
     },
-    "ApiGatewayDeployment1658292574568": {
+    "ApiGatewayDeployment1658894522763": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -674,9 +799,11 @@
       },
       "DependsOn": [
         "ApiGatewayMethodUserEntryTmpOptions",
+        "ApiGatewayMethodCreateLessonOptions",
         "ApiGatewayMethodUserEntryPrdOptions",
         "ApiGatewayMethodUserLoginOptions",
         "ApiGatewayMethodUserEntryTmpPost",
+        "ApiGatewayMethodCreateLessonPost",
         "ApiGatewayMethodUserEntryPrdPost",
         "ApiGatewayMethodUserLoginPost"
       ]
@@ -687,6 +814,43 @@
         "FunctionName": {
           "Fn::GetAtt": [
             "TmpLambdaFunction",
+            "Arn"
+          ]
+        },
+        "Action": "lambda:InvokeFunction",
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":execute-api:",
+              {
+                "Ref": "AWS::Region"
+              },
+              ":",
+              {
+                "Ref": "AWS::AccountId"
+              },
+              ":",
+              {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "/*/*"
+            ]
+          ]
+        }
+      }
+    },
+    "CreateLessonLambdaPermissionApiGateway": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "CreateLessonLambdaFunction",
             "Arn"
           ]
         },
@@ -791,122 +955,6 @@
           ]
         }
       }
-    },
-    "PostConfirmationCustomCognitoUserPool1": {
-      "Type": "Custom::CognitoUserPool",
-      "Version": 1,
-      "DependsOn": [
-        "PostConfirmationLambdaFunction",
-        "CustomDashresourceDashexistingDashcupLambdaFunction"
-      ],
-      "Properties": {
-        "ServiceToken": {
-          "Fn::GetAtt": [
-            "CustomDashresourceDashexistingDashcupLambdaFunction",
-            "Arn"
-          ]
-        },
-        "FunctionName": "tsugitasu-authorization-dev-postConfirmation",
-        "UserPoolName": "tsugitasu-authorization-dev-user-pool",
-        "UserPoolConfigs": [
-          {
-            "Trigger": "PreSignUp"
-          }
-        ]
-      }
-    },
-    "IamRoleCustomResourcesLambdaExecution": {
-      "Type": "AWS::IAM::Role",
-      "Properties": {
-        "AssumeRolePolicyDocument": {
-          "Version": "2012-10-17",
-          "Statement": [
-            {
-              "Effect": "Allow",
-              "Principal": {
-                "Service": [
-                  "lambda.amazonaws.com"
-                ]
-              },
-              "Action": [
-                "sts:AssumeRole"
-              ]
-            }
-          ]
-        },
-        "Policies": [
-          {
-            "PolicyName": {
-              "Fn::Join": [
-                "-",
-                [
-                  "dev",
-                  "tsugitasu-authorization",
-                  "custom-resources-lambda"
-                ]
-              ]
-            },
-            "PolicyDocument": {
-              "Version": "2012-10-17",
-              "Statement": [
-                {
-                  "Effect": "Allow",
-                  "Resource": "*",
-                  "Action": [
-                    "cognito-idp:ListUserPools",
-                    "cognito-idp:DescribeUserPool",
-                    "cognito-idp:UpdateUserPool"
-                  ]
-                },
-                {
-                  "Effect": "Allow",
-                  "Resource": {
-                    "Fn::Sub": "arn:${AWS::Partition}:lambda:*:*:function:tsugitasu-authorization-dev-postConfirmation"
-                  },
-                  "Action": [
-                    "lambda:AddPermission",
-                    "lambda:RemovePermission"
-                  ]
-                },
-                {
-                  "Effect": "Allow",
-                  "Resource": {
-                    "Fn::Sub": "arn:${AWS::Partition}:iam::*:role/*"
-                  },
-                  "Action": [
-                    "iam:PassRole"
-                  ]
-                }
-              ]
-            }
-          }
-        ]
-      }
-    },
-    "CustomDashresourceDashexistingDashcupLambdaFunction": {
-      "Type": "AWS::Lambda::Function",
-      "Properties": {
-        "Code": {
-          "S3Bucket": {
-            "Ref": "ServerlessDeploymentBucket"
-          },
-          "S3Key": "serverless/tsugitasu-authorization/dev/1658292575139-2022-07-20T04:49:35.139Z/custom-resources.zip"
-        },
-        "FunctionName": "tsugitasu-authorization-dev-custom-resource-existing-cup",
-        "Handler": "cognito-user-pool/handler.handler",
-        "MemorySize": 1024,
-        "Runtime": "nodejs14.x",
-        "Timeout": 180,
-        "Role": {
-          "Fn::GetAtt": [
-            "IamRoleCustomResourcesLambdaExecution",
-            "Arn"
-          ]
-        }
-      },
-      "DependsOn": [
-        "IamRoleCustomResourcesLambdaExecution"
-      ]
     },
     "ApiGatewayWithAuthorizationUserPool": {
       "Type": "AWS::Cognito::UserPool",
@@ -1071,25 +1119,25 @@
     "TmpLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "TmpLambdaVersionOM552dIV9bSAtDjKEqROweueLXNtPvnuRvmzSD4b0"
+        "Ref": "TmpLambdaVersionKn86hcgeyQ8GB79rGXxUQ9a0b8wz6b7FOmEso5FpL8"
       },
       "Export": {
         "Name": "sls-tsugitasu-authorization-dev-TmpLambdaFunctionQualifiedArn"
       }
     },
-    "PostConfirmationLambdaFunctionQualifiedArn": {
+    "CreateLessonLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "PostConfirmationLambdaVersionSCgFMdulDvkhMMO2WhH2SFjdVOA28jNfrXuJqUQk"
+        "Ref": "CreateLessonLambdaVersionTg9h72moRIdSmmqssgnVQyJrHWQQCCwbZ5ytpMdc4E"
       },
       "Export": {
-        "Name": "sls-tsugitasu-authorization-dev-PostConfirmationLambdaFunctionQualifiedArn"
+        "Name": "sls-tsugitasu-authorization-dev-CreateLessonLambdaFunctionQualifiedArn"
       }
     },
     "PrdLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "PrdLambdaVersionDX3hUhUZBcjLpvtXKY4mtK2dArGJCdc5KkCgsWuw"
+        "Ref": "PrdLambdaVersionUsth4yqgA2jugJGUcmGi1UnpGDyuMEcidVt7TBRTMsQ"
       },
       "Export": {
         "Name": "sls-tsugitasu-authorization-dev-PrdLambdaFunctionQualifiedArn"
@@ -1098,7 +1146,7 @@
     "LoginLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "LoginLambdaVersion5c3V2XjKgLZRoX9zXgM6rNnAmuE7ArV3qEwTJRU"
+        "Ref": "LoginLambdaVersionnDKM8Ad3qTFVf4fcs87uAbTtUkeMRCfU10FwHP9b0"
       },
       "Export": {
         "Name": "sls-tsugitasu-authorization-dev-LoginLambdaFunctionQualifiedArn"
