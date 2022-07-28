@@ -173,7 +173,7 @@ paths:
               lesson_name: "高校数学"
               created_by: "5af86f17-c263-465b-9439-4e8773ba5600"
               outline: "高校の数学の授業です"
-              Public: true
+              Public: "Allowed"
               icon:
                 color: "Yellow"
                 file_name: "hoge.svz"
@@ -212,7 +212,7 @@ components:
         outline:
           type: string
         Public:
-          type: boolean
+          type: string
         icon:
           type: object
         materials:
