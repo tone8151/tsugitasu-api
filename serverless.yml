@@ -19,25 +19,6 @@ provider:
             # - arn:aws:dynamodb:ap-northeast-1:805557091016:table/lessons
 
 functions:
-  # 仮登録API
-  tmp:
-    handler: entry_tmp.handler
-    events:
-      - http:
-          path: /user/entry/tmp/
-          method: post
-          cors: 
-            # どのオリジンからのアクセスを受け付けるかどうか
-            origin: '*'
-            # 許可するヘッダーを定義
-            headers:
-              - Content-Type
-              - X-Amz-Date
-              - Authorization
-              - X-Api-Key
-              - X-Amz-Security-Token
-              - X-Amz-User-Agent
-            allowCredentials: false
   # 授業作成API
   createLesson:
     handler: createLesson.handler
@@ -49,27 +30,25 @@ functions:
           authorizer:
             type: COGNITO_USER_POOLS
             authorizerId: !Ref ApiGatewayWithAuthorizationAuthorizer
-            # # どのオリジンからのアクセスを受け付けるかどうか
-            # origin: '*'
-            # # 許可するヘッダーを定義
-            # headers:
-            #   - Content-Type
-            #   - X-Amz-Date
-            #   - Authorization
-            #   - X-Api-Key
-            #   - X-Amz-Security-Token
-            #   - X-Amz-User-Agent
-            # allowCredentials: false
-  # signup時に入力したmailやnicknameをDBにも格納
-  # postConfirmation:
-  #   handler: postConfirmation.handler
-  #   events:
-  #     - cognitoUserPool:
-  #         # pool: ${self:service}-${self:provider.stage}-user-pool
-  #         pool: ${self:service}-${self:provider.stage}-user-pool
-  #         # trigger: PostConfirmation
-  #         trigger: PreSignUp
-  #         existing: true
+  # 授業取得API
+  getLessons:
+    handler: getLessons.handler
+    events:
+      - http:
+          path: /retrieve/lesson/{user_id}
+          method: get
+          cors: true
+          authorizer:
+            type: COGNITO_USER_POOLS
+            authorizerId: !Ref ApiGatewayWithAuthorizationAuthorizer
+  # 仮登録API
+  tmp:
+    handler: entry_tmp.handler
+    events:
+      - http:
+          path: /user/entry/tmp/
+          method: post
+          cors: true
   # 本登録API
   prd:
     handler: entry_prd.handler
@@ -89,7 +68,6 @@ functions:
               - X-Amz-Security-Token
               - X-Amz-User-Agent
             allowCredentials: true
-
   # ログインAPI
   login:
     handler: login.handler
@@ -109,6 +87,16 @@ functions:
               - X-Amz-Security-Token
               - X-Amz-User-Agent
             allowCredentials: true
+  # signup時に入力したmailやnicknameをDBにも格納
+  # postConfirmation:
+  #   handler: postConfirmation.handler
+  #   events:
+  #     - cognitoUserPool:
+  #         # pool: ${self:service}-${self:provider.stage}-user-pool
+  #         pool: ${self:service}-${self:provider.stage}-user-pool
+  #         # trigger: PostConfirmation
+  #         trigger: PreSignUp
+  #         existing: true
 
 resources:
   Resources:

@@ -13,10 +13,12 @@ servers:
           - http
           - https
 tags:
-- name: "user"
-  description: "ユーザーに関するオペレーション"
-- name: "create"
-  description: "教材や授業の新規作成に関するオペレーション"
+  - name: "user"
+    description: "ユーザーに関するオペレーション"
+  - name: "create"
+    description: "教材や授業の新規作成に関するオペレーション"
+  - name: "retrieve"
+    description: "教材や授業の取得に関するオペレーション"
 paths:
   /user/entry/tmp/:
     post:
@@ -28,36 +30,26 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/req_mail_pass_nickname"
-            example:
-              nickname: "ホゲホゲさん"
-              email: "hoge@example.com"
-              password: "hogehoge345"
+              allOf:
+                - $ref: "#/components/schemas/singInInfo"
+                - type: object
+                  properties:
+                    nickname:
+                      type: string
+                      example: ホゲホゲさん
       responses:
         "200":
-          description: "仮登録成功"
-          content:
-            application/json: 
-              schema:
-                $ref: "#/components/schemas/res"
-              example:
-                message: "tmp successful"
+          $ref: "#/components/responses/simpleSuccess"
         "400":
           description: "メールアドレスが既に登録されている場合"
           content:
             application/json: 
               schema:
-                $ref: "#/components/schemas/res"
+                $ref: "#/components/schemas/messageOnlyResponse"
               example:
                 message: "Email address already exists"
         "502":
-          description: "予期しないエラーが起きた場合"
-          content:
-            application/json: 
-              schema:
-                $ref: "#/components/schemas/res"
-              example:
-                message: "Internal server error"
+          $ref: "#/components/responses/serverError"
   /user/entry/prd/:
     post:
       tags:
@@ -68,27 +60,23 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/prd_req"
-            example:
-              email: "hoge@example.com"
-              confirmation_code: "345352"
+              type: object
+              properties:
+                 email:
+                    type: string
+                    example: "hoge@example.com"
+                 confirmation_code:
+                    type: string
+                    example: "345352"
       responses:
         "200":
-          description: "本登録成功"
-          content:
-            application/json: 
-              schema:
-                $ref: "#/components/schemas/res"
-              example:
-                message: "prd successful"
+          $ref: "#/components/responses/simpleSuccess"
         "400":
           description: "認証に失敗した場合"
           content:
             application/json: 
               schema:
-                oneOf:
-                  - $ref: "#/components/schemas/res"
-                  - $ref: "#/components/schemas/res"
+                $ref: "#/components/schemas/messageOnlyResponse"
               examples:
                 response1:
                   summary: 入力したコードが間違っている場合
@@ -99,13 +87,7 @@ paths:
                   value:
                     message: "Code is not valid"
         "502":
-          description: "予期しないエラーが起きた場合"
-          content:
-            application/json: 
-              schema:
-                $ref: "#/components/schemas/res"
-              example:
-                message: "Internal server error"
+          $ref: "#/components/responses/serverError"
   /user/login/:
     post:
       tags:
@@ -116,17 +98,23 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/req_mail_pass"
-            example:
-              email: "hoge@example.com"
-              password: "hogehoge345"
+              $ref: "#/components/schemas/singInInfo"
       responses:
         "200":
           description: "ログイン成功"
           content:
             application/json: 
               schema:
-                $ref: "#/components/schemas/res_token"
+                type: object
+                properties:
+                  message:
+                    type: string
+                  AccessToken:
+                    type: "string"
+                  RefreshToken:
+                    type: "string"
+                  IdToken:
+                    type: "string"
               example:
                 message: "Login successful"
                 AccessToken: "eyJraWQiOiJ5aGJoeDdUclhpWVNDU1h....zGh4xMblotEHgbiY5_GVEPGIIWzrP5xg"
@@ -137,9 +125,7 @@ paths:
           content:
             application/json: 
               schema:
-                oneOf:
-                  - $ref: "#/components/schemas/res"
-                  - $ref: "#/components/schemas/res"
+                $ref: "#/components/schemas/messageOnlyResponse"
               examples:
                 response1:
                   summary: メールアドレスかパスワードが間違っている場合
@@ -151,13 +137,7 @@ paths:
                     message: "Not confirmed"
 
         "502":
-          description: "予期しないエラーが起きた場合"
-          content:
-            application/json: 
-              schema:
-                $ref: "#/components/schemas/res"
-              example:
-                message: "Internal server error"
+          $ref: "#/components/responses/serverError"
   /create/lesson/:
     post:
       tags:
@@ -170,96 +150,115 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/req_create_lesson"
-            example:
-              lesson_name: "高校数学"
-              created_by: "5af86f17-c263-465b-9439-4e8773ba5600"
-              outline: "高校の数学の授業です"
-              Public: "Allowed"
-              icon:
-                color: "Yellow"
-                file_name: "hoge.svz"
-              materials: 
-                - "jav3o39"
-                - "qhptr95"
-              tags:
-                - "数学"
-                - "高校"
+              $ref: "#/components/schemas/lessons"
       responses:
         "200":
-          description: "作成成功"
-          content:
-            application/json: 
-              schema:
-                $ref: "#/components/schemas/res"
-              example:
-                message: "successful"
+          $ref: "#/components/responses/simpleSuccess"
         "502":
-          description: "作成失敗"
+          $ref: "#/components/responses/serverError"
+  /retrieve/lesson/:
+    get:
+      tags:
+      - "retrieve"
+      summary: "指定したユーザーが作成した授業情報をすべて取得"
+      description: ""
+      security:
+        - Bearer: []
+      parameters:
+        - name: user_id
+          in: path
+          description: ユーザー名を指定
+          required: true
+          schema:
+            type: string      
+          example: "1c841656"
+      responses:
+        "200":
+          description: "取得成功"
           content:
             application/json: 
               schema:
-                $ref: "#/components/schemas/res"
-              example:
-                message: "Internal server error"
+                allOf:
+                  - $ref: "#/components/schemas/lessons"
+                  - type: object
+                    properties:
+                      lesson_id:
+                        type: string
+                        example: "6e0dcbd0-bf8a-4952-b519-bee4eea5c2d4"
+                      created_at:
+                        type: "string"           
+                        example: "2022/07/29/10:46"
+        "502":
+          $ref: "#/components/responses/serverError"
+
+# 共通化できる項目をまとめる              
 components:
   schemas:
-    req_create_lesson: 
+    lessons: 
       type: object
       properties:
         lesson_name:
           type: string
+          example: "高校数学"
         created_by:
           type: string
+          example: "5af86f17"
         outline:
           type: string
+          example: "高校の数学の授業です"
         Public:
           type: string
+          example: "Allowed"
         icon:
           type: object
+          example:
+            color: "Yellow"
+            file_name: "hoge.svz" 
         materials:
           type: array
+          example:
+            - "qhptr95"
+            - "jav3o39"
         tags:
           type: array
-    req_mail_pass: 
+          example:
+            - "高校"
+            - "数学"
+    singInInfo: 
       type: object
+      required:
+        - email
+        - password
       properties:
         email:
           type: string
+          example: hogehoge@gmail.com
         password:
           type: string
-    req_mail_pass_nickname: 
-      type: object
-      properties:
-        nickname:
-          type: string
-        email:
-          type: string
-        password:
-          type: string
-    prd_req: 
-      type: object
-      properties:
-        email:
-          type: string
-        confirmation_code:
-          type: string
-    res: 
+          example: hoge0123
+    messageOnlyResponse: 
       type: object
       properties:
         message:
           type: string
-    res_token: 
-      type: object
-      properties:
-        message:
-          type: string
-        AccessToken:
-          type: "string"
-        RefreshToken:
-          type: "string"
-        IdToken:
-          type: "string"
+
+  responses:
+    simpleSuccess:
+      description: "成功"
+      content:
+        application/json: 
+          schema:
+            $ref: "#/components/schemas/messageOnlyResponse"
+          example:
+            message: "successful"
+    serverError:
+        description: "サーバーエラー"
+        content:
+          application/json: 
+            schema:
+              $ref: "#/components/schemas/messageOnlyResponse"
+            example:
+              message: "Internal server error"
   securitySchemes:
     Bearer:
       type: http
