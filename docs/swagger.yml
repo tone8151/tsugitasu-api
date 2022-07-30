@@ -167,11 +167,11 @@ paths:
       parameters:
         - name: user_id
           in: path
-          description: ユーザー名を指定
+          description: ユーザーid(sub)を指定
           required: true
           schema:
             type: string      
-          example: "1c841656"
+          example: "116b4bc2-5973-458e-bb39-2f3e13743175"
       responses:
         "200":
           description: "取得成功"
