@@ -15,16 +15,16 @@ def handler(event, context):
             "picture": "default"
         })
 
-    body = {
-        "message": "successful",
-    }
+    # body = {
+    #     "message": "successful",
+    # }
     
-    response = {
-        "statusCode": 200,
-        "headers": {
-        "Access-Control-Allow-Origin": "*",
-        },
-        "body": json.dumps(body)
-    }
+    # response = {
+    #     "statusCode": 200,
+    #     "headers": {
+    #     "Access-Control-Allow-Origin": "*",
+    #     },
+    #     "body": json.dumps(body)
+    # }
 
-    return response
+    return event

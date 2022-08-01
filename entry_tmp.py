@@ -14,7 +14,7 @@ def sign_up(nickname, email, password):
         )
 
         aws_result = aws_client.sign_up(
-            ClientId="2dv8ikehvfiqv84mksitc9jq59",
+            ClientId="674ab2m9u0r14eaebjik9da9mu",
             Username=email,
             Password=password,
             UserAttributes=[

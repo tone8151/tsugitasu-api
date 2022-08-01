@@ -11,7 +11,7 @@ def confirm_sign_up(email, confirmation_code):
         )
 
         aws_result = aws_client.confirm_sign_up(
-            ClientId="2dv8ikehvfiqv84mksitc9jq59",
+            ClientId="674ab2m9u0r14eaebjik9da9mu",
             Username=email,
             ConfirmationCode=confirmation_code,
         )
@@ -53,7 +53,7 @@ def handler(event, context):
         response = {
             "statusCode": 200,
             "headers": {
-            "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Origin": "*",
             },
             "body": json.dumps(body)
         }
