@@ -45,7 +45,7 @@ def handler(event, context):
     #     }
     # else:
     body = {
-        "message": "made",
+        "message": "successful",
     }
 
     response = {

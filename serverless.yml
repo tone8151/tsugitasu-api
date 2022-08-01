@@ -15,6 +15,7 @@ provider:
           Action:
             - "dynamodb:*"
             - "cognito-idp:AdminInitiateAuth"
+            - "lambda:*"
           Resource: '*'
             # - arn:aws:dynamodb:ap-northeast-1:805557091016:table/lessons
 
@@ -41,6 +42,17 @@ functions:
           authorizer:
             type: COGNITO_USER_POOLS
             authorizerId: !Ref ApiGatewayWithAuthorizationAuthorizer
+  # プロフィールの更新
+  updateProfile:
+    handler: updateProfile.handler
+    events:
+      - http:
+          path: /update/profile/
+          method: post
+          cors: true
+          authorizer:
+            type: COGNITO_USER_POOLS
+            authorizerId: !Ref ApiGatewayWithAuthorizationAuthorizer
   # 仮登録API
   tmp:
     handler: entry_tmp.handler
@@ -56,18 +68,7 @@ functions:
       - http:
           path: /user/entry/prd/
           method: post
-          cors: 
-            # どのオリジンからのアクセスを受け付けるかどうか(今回は全て)
-            origin: '*'
-            # 許可するヘッダーを定義
-            headers:
-              - Content-Type
-              - X-Amz-Date
-              - Authorization
-              - X-Api-Key
-              - X-Amz-Security-Token
-              - X-Amz-User-Agent
-            allowCredentials: true
+          cors: true
   # ログインAPI
   login:
     handler: login.handler
@@ -87,6 +88,14 @@ functions:
               - X-Amz-Security-Token
               - X-Amz-User-Agent
             allowCredentials: true
+  # signup時にユーザDBに項目を作成
+  createUserData:
+    handler: createUserData.handler
+    events:
+      - cognitoUserPool:
+          pool: ${self:service}-${self:provider.stage}-user-pool
+          trigger: PostConfirmation
+          existing: true
   # signup時に入力したmailやnicknameをDBにも格納
   # postConfirmation:
   #   handler: postConfirmation.handler
